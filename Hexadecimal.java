@@ -1,11 +1,11 @@
 /*
-Team HexaBinary -- Ayman Ahmed and Calvin Vuong
+Calvin Vuong
 APCS1 pd5
 HW44 -- This or That or Fourteen Other Things
 2015-12-09
 */
 
-public class Hexadecimal {
+public class Hexadecimal implements Comparable{
 	
 	private final static String HEXDIGITS = "0123456789ABCDEF";
 	private int _decNum;

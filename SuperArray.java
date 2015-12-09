@@ -1,9 +1,9 @@
-/*  Team VACV -- Vincent Tang, Calvin Vuong 
+/*  Calvin Vuong
     APCS1 pd5
     HW42 -- Array of Titanium
     2015-12-07 */
 
-public class SuperArray implements ListInt {
+public class SuperArray implements Comparable {
      
     //~~~~~INSTANCE VARS~~~~~
     //underlying container, or "core" of this data structure:

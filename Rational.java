@@ -1,4 +1,4 @@
-// Team VAVC -- Vincent Tang, Calvin Vuong
+// Calvin Vuong
 // APCS1 pd5
 // HW41 -- In America, the Driver Sits on the Left
 // 2015-12-04

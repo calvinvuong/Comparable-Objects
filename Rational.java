@@ -124,9 +124,9 @@ public class Rational implements Comparable{
     }
 
     /* Takes an Object parameter and returns:
-       positive int if this Rational greater
-       negative int if other Rational greater
-       0 if Rationals have same value
+       positive int if this Objetc greater
+       negative int if other Object greater
+       0 if Objects have same value
        throws NullPointerException if other Object is null
        throws ClassCastException if other Object is not a comparable Object
     */

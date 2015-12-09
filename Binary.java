@@ -147,12 +147,9 @@ public class Binary implements Comparable{
       Object), or if this and other represent equal binary values
       =============================================*/
     public boolean equals( Object other ) { 
-	//typecasts as necessary
-	if (!(other instanceof Binary)) { return false; } //return false if not same Object types
-	//typecasts as necessary
-	boolean alias = this == other; //true if this object and other are aliases
-	boolean value = this._binNum.equals(((Binary)other)._binNum); //true if binary number of this object is equivalent to that of other's
-	return alias || value; //true if either they are aliases or values are equal
+	if (this == other) { return true; } //true if this object and other are aliases
+	//if not aliases...
+	return this.compareTo(other) == 0;
     }
 
 
@@ -165,7 +162,7 @@ public class Binary implements Comparable{
     public int compareTo( Object other ) {
 	//comparing base 10 values is easiest approach
 	//typecasts as necessary
-	return this._decNum - ((Binary)other)._decNum;
+
     }
 
 

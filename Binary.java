@@ -51,6 +51,9 @@ public class Binary implements Comparable{
 	return _binNum; //return binary value of Object
     }
 
+    public int getDecNum(){
+	return _decNum;
+    }
 
     /*=====================================
       String decToBin(int) -- converts base-10 input to binary
@@ -105,11 +108,9 @@ public class Binary implements Comparable{
       =====================================*/
     public static int binToDec( String s ) {
 	int retInt = 0;
-	int exp = 0; //keeps track of what exponent to raise 2 to
-	for (int i = s.length(); i > 0; i--){ //iterate through s right to left
-	    int digit = Integer.parseInt(s.substring(i-1, i)); //convert current digit into an int
-	    retInt += digit * (int) Math.pow(2, exp); //add to retInt digit times base 2 raised to the power of the current exponent
-	    exp += 1;
+	for (int i = 0; i < s.length(); i++){ //iterate through s left to right
+	    int digit = Integer.parseInt(s.substring(i, i+1)); //convert current digit into an int
+	    retInt += digit * (int) Math.pow(2, s.length()-1 - i); //add to retInt digit times base 2 raised to an exp based on pos
 	}
 	return retInt;
     }
@@ -126,25 +127,15 @@ public class Binary implements Comparable{
       binToDecR("11") -> 3
       binToDecR("1110") -> 14
       =====================================*/
-    public static int binToDecR( String s ) { 
-	return binToDecRHelper(s, 0); //start at exponent 1
-    }
-
-    /*
-      helper method for binToDecR(String s, int exp)
-      pre: s represents a non-negative binary number
-           exp represents power to raise base 2 to
-      post: returns binary as an int in decimal form
-    */  
-    public static int binToDecRHelper( String s, int exp ){
-	if (s.length() == 1){ //base case
-	    int digit = Integer.parseInt(s); //int form of remaining digit
-	    return digit * (int)Math.pow(2, exp); //convert digit into decimal value
+    public static int binToDecR( String s ){
+	if (s.length() == 0){ //base case
+	    return 0;
 	}
 	else{ //recursive case
-	    int digit = Integer.parseInt(s.substring(s.length()-1, s.length())); //last most digit of s
-	    String next = s.substring(0, s.length()-1); //string of digits without the last one
-	    return (digit * (int)Math.pow(2, exp)) + binToDecRHelper(next, exp += 1); //convert digit into decimal value and add to conversion of rest of digits
+	    int binDigit = Integer.parseInt(s.substring(0,1)); //first bin digit
+	    int binValue = binDigit * (int) Math.pow(2, s.length()-1); //value of this bin digit in base 10
+	    String next = s.substring(1); //string of digits without the first one
+	    return binValue + binToDecR(next); //add value of this digit to value of all others
 	}
     }
 

@@ -138,13 +138,28 @@ public class Rational implements Comparable{
 	    throw new ClassCastException("You cannot compare two non-comparable objects.");
 	}
 
+	//typecast or convert other into a Rational for easy compare
+	Rational otherAsRational = null;
+	if (other instanceof Rational){
+	    otherAsRational = ( (Rational) other);
+	}
+	else if (other instanceof Binary){
+	    otherAsRational = new Rational( ((Binary) other).getDecNum(), 1 );
+	}
+	else if (other instanceof Hexadecimal){
+	    otherAsRational = new Rational( ((Hexadecimal) other).getDecNum(), 1 );
+	}
+
+	//compare through cross multiplication
 	int thisNumerator, otherNumerator;
 	
 	//typecast to access instance var	
-	thisNumerator = _numerator * ((Rational) other)._denominator;
-	otherNumerator = _denominator * ((Rational) other)._numerator;
+	thisNumerator = _numerator * otherAsRational._denominator;
+	otherNumerator = _denominator * otherAsRational._numerator;
 	
 	return thisNumerator - otherNumerator;
+	
+	    
     }
 
 
@@ -174,13 +189,23 @@ public class Rational implements Comparable{
 	Rational w = new Rational( 8, 12 );
 	
 	String bad = new String("hola!");
-	Rational blank; //null class
-	
+	Rational blank = null; //null class
+	Rational twoRat = new Rational(6,3);
+	Binary twoBin = new Binary("10");
+	Hexadecimal twoHex = new Hexadecimal("2");
+
 	//new test cases
 	System.out.println(v.compareTo(w)); // 0
 	System.out.println(v.compareTo(t)); // -14
+
+	System.out.println(twoRat.compareTo(twoBin)); //0
+	System.out.println(twoRat.compareTo(twoHex)); //0
+	System.out.println(u.compareTo(twoBin)); // negative
+	System.out.println(u.compareTo(twoHex)); // engative
+
+
 	System.out.println(v.compareTo(bad)); //ClassCastException
-	//	System.out.println(v.compareTo(blank)); //NullPointerException
+	System.out.println(v.compareTo(blank)); //NullPointerException
 	
 
 	/* OLD TEST CASES...

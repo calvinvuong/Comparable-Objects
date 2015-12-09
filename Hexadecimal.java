@@ -49,6 +49,10 @@ public class Hexadecimal implements Comparable{
 	public String toString() {
 		return _hexNum;
 	}
+
+    public int getDecNum(){
+	return _decNum;
+    }
 	
 	/*=====================================
 	String decToHex(int) -- converts base-10 input to a hexadecimal

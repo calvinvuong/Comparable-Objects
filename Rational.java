@@ -130,7 +130,13 @@ public class Rational implements Comparable{
        -1 if Object not rational
     */
     public int compareTo( Object other ) {
-	if (other instanceof Rational){ //object must be rational to compare
+	if (other == null){ //if null object
+	    throw new NullPointerException("You compared a null object.");
+	}
+	if (!(other instanceof Comparable)){ //if both objects cannot be compared...
+	    throw new ClassCastException("You cannot compare two non-comparable objects.");
+	}
+
 	    int thisNumerator, otherNumerator;
 			    
 	    //typecast to access instance var	
@@ -138,7 +144,7 @@ public class Rational implements Comparable{
 	    otherNumerator = _denominator * ((Rational) other)._numerator;
 
 	    return thisNumerator - otherNumerator;
-	}
+
 	return -1; //if not same class type, return -1 
     }
 
@@ -151,12 +157,7 @@ public class Rational implements Comparable{
  
         //Next, if this and input are different Objects,
         if ( !retVal )
- 
-            //...check to see if input is same type
-            retVal = rightSide instanceof Rational
- 
-                //...and that its value matches that of this
-                && this.compareTo( (Rational)rightSide ) == 0;
+	    retVal = this.compareTo( rightSide ) == 0;
  
         return retVal;
     }

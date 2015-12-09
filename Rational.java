@@ -1,7 +1,7 @@
 // Calvin Vuong
 // APCS1 pd5
-// HW41 -- In America, the Driver Sits on the Left
-// 2015-12-04
+// HW45 -- Come Together
+// 2015-12-10
 
 public class Rational implements Comparable{
 
@@ -127,7 +127,8 @@ public class Rational implements Comparable{
        positive int if this Rational greater
        negative int if other Rational greater
        0 if Rationals have same value
-       -1 if Object not rational
+       throws NullPointerException if other Object is null
+       throws ClassCastException if other Object is not a comparable Object
     */
     public int compareTo( Object other ) {
 	if (other == null){ //if null object
@@ -137,15 +138,13 @@ public class Rational implements Comparable{
 	    throw new ClassCastException("You cannot compare two non-comparable objects.");
 	}
 
-	    int thisNumerator, otherNumerator;
-			    
-	    //typecast to access instance var	
-	    thisNumerator = _numerator * ((Rational) other)._denominator;
-	    otherNumerator = _denominator * ((Rational) other)._numerator;
-
-	    return thisNumerator - otherNumerator;
-
-	return -1; //if not same class type, return -1 
+	int thisNumerator, otherNumerator;
+	
+	//typecast to access instance var	
+	thisNumerator = _numerator * ((Rational) other)._denominator;
+	otherNumerator = _denominator * ((Rational) other)._numerator;
+	
+	return thisNumerator - otherNumerator;
     }
 
 
@@ -174,6 +173,17 @@ public class Rational implements Comparable{
 	Rational v = new Rational( 2, 3 );
 	Rational w = new Rational( 8, 12 );
 	
+	String bad = new String("hola!");
+	Rational blank; //null class
+	
+	//new test cases
+	System.out.println(v.compareTo(w)); // 0
+	System.out.println(v.compareTo(t)); // -14
+	System.out.println(v.compareTo(bad)); //ClassCastException
+	//	System.out.println(v.compareTo(blank)); //NullPointerException
+	
+
+	/* OLD TEST CASES...
 	System.out.println("r: " + r );
 	System.out.println("s: " +  s );
 	System.out.println("t: " +  t );
@@ -214,7 +224,7 @@ public class Rational implements Comparable{
 				
 	//tests if comparing to non-Rational will return error or not
 	System.out.println( v.compareTo("hi"));
-
+	*/
     }//end main
 
 

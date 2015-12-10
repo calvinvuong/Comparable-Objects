@@ -153,22 +153,72 @@ public class Binary implements Comparable{
     }
 
 
-    /*=============================================
-      int compareTo(Object) -- tells which of two Binary objects is greater
-      pre:  other is instance of class Binary
-      post: Returns 0 if this Object is equal to the input Object,
-      negative integer if this<input, positive integer otherwise
-      =============================================*/
+    /* Takes an Object parameter and returns:
+       positive int if this Object greater
+       negative int if other Object greater
+       0 if Objects have same value
+       throws NullPointerException if other Object is null
+       throws ClassCastException if other Object is not a comparable Object    
+    */
     public int compareTo( Object other ) {
-	//comparing base 10 values is easiest approach
-	//typecasts as necessary
+        if (other == null){ //if null object
+            throw new NullPointerException("You compared a null object.");
+        }
+        if (!(other instanceof Comparable)){ //if both objects cannot be compared...
+            throw new ClassCastException("You cannot compare two non-comparable objects.");
+        }
+
+        //typecast or convert into a Rational for easy compare
+	Rational thisAsRational = new Rational(_decNum, 1);
+	Rational otherAsRational = null;
+	if (other instanceof Rational){
+	    otherAsRational = (Rational) other;
+	}
+	else if (other instanceof Binary){
+	    otherAsRational = new Rational( ((Binary) other).getDecNum(), 1);
+	}
+	else if (other instanceof Hexadecimal){
+	    otherAsRational = new Rational( ((Hexadecimal) other).getDecNum(), 1);
+	}
+
+        //compare through cross multiplication
+        int thisNumerator, otherNumerator;
+
+        //typecast to access instance var
+        thisNumerator = thisAsRational.getNumerator() * otherAsRational.getDenominator();
+        otherNumerator = thisAsRational.getDenominator() * otherAsRational.getNumerator();
+
+        return thisNumerator - otherNumerator;
 
     }
+
 
 
     //main method for testing
     public static void main( String[] args ) {
 
+	Binary b1 = new Binary("1101"); //13
+	Rational r1 = new Rational(26, 2); //13
+	Hexadecimal h1 = new Hexadecimal("D"); //13
+
+	Binary b2 = new Binary("111"); //7
+	Rational r2 = new Rational(7, 2); // 7/2
+	Hexadecimal h2 = new Hexadecimal("AC23D7"); //large
+
+	String bad = new String("hola!");
+	Binary empty = null;
+
+	System.out.println(b1.compareTo(r1)); //0
+	System.out.println(b1.compareTo(h1)); //0
+	System.out.println(r1.compareTo(h1)); //0
+	
+	System.out.println(b2.compareTo(r2)); //positive
+	System.out.println(r2.compareTo(h2)); //negative
+	
+	System.out.println(b1.compareTo(bad)); //ClassCastException
+	System.out.println(b1.compareTo(empty)); //NullPointerException
+
+	/*OLD TEST CASES...
 	System.out.println();
 	System.out.println( "Testing ..." );
 
@@ -207,7 +257,7 @@ public class Binary implements Comparable{
 	System.out.println( b1.compareTo(b3) ); //should be 0
 	System.out.println( b1.compareTo(b4) ); //should be neg
 	System.out.println( b4.compareTo(b1) ); //should be pos
-
+	*/
     }//end main()
 
 } //end class

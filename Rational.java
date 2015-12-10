@@ -30,6 +30,13 @@ public class Rational implements Comparable{
 	}
     }
 
+    //accessors
+    public int getNumerator(){
+	return _numerator;
+    }
+    public int getDenominator(){
+	return _denominator;
+    }
 
     //return String representation of this Rational number
     public String toString() {

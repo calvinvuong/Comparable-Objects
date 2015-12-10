@@ -143,44 +143,91 @@ public class Hexadecimal implements Comparable{
 			return hexInBase10 + hexToDecR(s.substring(1));
 		}
 	}
-	
-	/*=============================================
-	boolean equals(Object) -- tells whether 2 Objs are equivalent
-	pre:  other is an instance of class Hexadecimal
-	post: Returns true if this and other are aliases (pointers to same
-	Object), or if this and other represent equal Hexadecimal values
-	=============================================*/
-	public boolean equals( Object other ) {
-		if (!(other instanceof Hexadecimal)){ //if not same class, throw exception
-			throw new ClassCastException("\nYou can only compare two Hexadecimal classes.");
-		}
-		Hexadecimal otherhex = (Hexadecimal)(other); //type cast to access specific methods
-		return (this.compareTo(otherhex) == 0);
+
+    /*=============================================
+      boolean equals(Object) -- tells whether 2 Objs are equivalent
+      pre:  other is an instance of class Binary
+      post: Returns true if this and other are aliases (pointers to same 
+      Object), or if this and other represent equal binary values
+      =============================================*/
+    public boolean equals( Object other ) { 
+	if (this == other) { return true; } //true if this object and other are aliases
+	//if not aliases...
+	return this.compareTo(other) == 0;
+    }
+
+
+    /* Takes an Object parameter and returns:
+       positive int if this Object greater
+       negative int if other Object greater
+       0 if Objects have same value
+       throws NullPointerException if other Object is null
+       throws ClassCastException if other Object is not a comparable Object    
+    */
+    public int compareTo( Object other ) {
+        if (other == null){ //if null object
+            throw new NullPointerException("You compared a null object.");
+        }
+        if (!(other instanceof Comparable)){ //if both objects cannot be compared...
+            throw new ClassCastException("You cannot compare two non-comparable objects.");
+        }
+
+        //typecast or convert into a Rational for easy compare
+	Rational thisAsRational = new Rational(_decNum, 1);
+	Rational otherAsRational = null;
+	if (other instanceof Rational){
+	    otherAsRational = (Rational) other;
 	}
-	
-	/*=============================================
-	int compareTo(Object) -- tells which of two Hexadecimal objects is greater
-	pre:  other is instance of class Hexadecimal
-	post: Returns 0 if this Object is equal to the input Object,
-	negative integer if this<input, positive integer otherwise
-	=============================================*/
-	public int compareTo( Object other ) {
-		if (!(other instanceof Hexadecimal)){ //if not same class, throw exception
-			throw new ClassCastException("\nYou can only compare two Hexadecimal classes.");
-		}
-		Hexadecimal otherhex = (Hexadecimal)(other); //typecast to access specific vars
-		return this._decNum - otherhex._decNum;
+	else if (other instanceof Binary){
+	    otherAsRational = new Rational( ((Binary) other).getDecNum(), 1);
 	}
+	else if (other instanceof Hexadecimal){
+	    otherAsRational = new Rational( ((Hexadecimal) other).getDecNum(), 1);
+	}
+
+        //compare through cross multiplication
+        int thisNumerator, otherNumerator;
+
+        //typecast to access instance var
+        thisNumerator = thisAsRational.getNumerator() * otherAsRational.getDenominator();
+        otherNumerator = thisAsRational.getDenominator() * otherAsRational.getNumerator();
+
+        return thisNumerator - otherNumerator;
+
+    }
+	
 	
 	//main method for testing
 	public static void main( String[] args ) {
-		
-		System.out.println();
-		System.out.println( "Testing ..." );
-		
-		Hexadecimal h1 = new Hexadecimal(23);
-		Hexadecimal h2 = new Hexadecimal("17");
-		Hexadecimal h3 = h1;
+			Binary b1 = new Binary("1101"); //13
+			Rational r1 = new Rational(26, 2); //13
+			Hexadecimal h1 = new Hexadecimal("D"); //13
+			
+			Binary b2 = new Binary("111"); //7
+			Rational r2 = new Rational(7, 2); // 7/2
+			Hexadecimal h2 = new Hexadecimal("AC23D7"); //large
+			
+			String bad = new String("hola!");
+			Binary empty = null;
+			
+			System.out.println(h1.compareTo(r1)); //0
+			System.out.println(h1.compareTo(b1)); //0
+			System.out.println(r1.compareTo(b1)); //0
+			
+			System.out.println(h2.compareTo(r2)); //positive
+			System.out.println(r2.compareTo(b2)); //negative
+			
+			System.out.println(h1.compareTo(bad)); //ClassCastException
+			System.out.println(h1.compareTo(empty)); //NullPointerException
+			
+			/*OLD TEST CASES...
+			System.out.println();
+			System.out.println( "Testing ..." );
+			
+
+			  Hexadecimal h1 = new Hexadecimal(23);
+			  Hexadecimal h2 = new Hexadecimal("17");
+			  Hexadecimal h3 = h1;
 		Hexadecimal h4 = new Hexadecimal(100);
 		
 		System.out.println( h1 );
@@ -212,7 +259,7 @@ public class Hexadecimal implements Comparable{
 		System.out.println("\nTesting error throw...");
 		System.out.println(h1.equals(new String("hi"))); //should throw error
 		
-		
+		*/
 	}//end main()
 	
 } //end class

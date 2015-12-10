@@ -1,7 +1,7 @@
 // Calvin Vuong
 // APCS1 pd5
-// HW43 -- This or That
-// 2015-12-07
+// HW44 -- Come Together
+// 2015-12-10
 
 public class Binary implements Comparable{
 

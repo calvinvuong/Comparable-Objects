@@ -1,9 +1,9 @@
 /*  Calvin Vuong
     APCS1 pd5
-    HW42 -- Array of Titanium
-    2015-12-07 */
+    HW45 -- Come Together
+    2015-12-10 */
 
-public class SuperArray implements Comparable {
+public class SuperArray{
      
     //~~~~~INSTANCE VARS~~~~~
     //underlying container, or "core" of this data structure:
